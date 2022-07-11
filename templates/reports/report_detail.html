@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block page_title %}
+Report Detail
+{% endblock page_title %}
+{% block content %}
+
+
+<div>{{report.company}}</div>
+<div>{{report.department}}</div>
+<div>{{report.process}}</div>
+<div>{{report.operation}}</div>
+<div>{{report.effective_date}}</div>
+<div>{{report.prev_image}}</div>
+<div>{{report.prev_risk}}</div>
+<div>{{report.prev_frequency}}</div>
+<div>{{report.prev_importance}}</div>
+<div>{{report.prev_dangerous}}</div>
+<div>{{report.after_image}}</div>
+<div>{{report.after_risk}}</div>
+<div>{{report.after_frequency}}</div>
+<div>{{report.after_importance}}</div>
+<div>{{report.after_dangerous}}</div>
+
+{% endblock content %}
