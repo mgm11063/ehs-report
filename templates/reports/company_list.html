@@ -5,7 +5,7 @@ Home
 {% block content %}
 <div class="pt-48">
     {% for company in companys %}
-        <a class="bg-white px-5 py-5 text-2xl block mb-3" href="/reports/{{company.pk}}">{{company.name}}</a>
+        <a class="bg-white px-5 py-5 text-2xl block mb-3" href="/reports/{{company}}">{{company.name}}</a>
     {% endfor %}
 </div>
 

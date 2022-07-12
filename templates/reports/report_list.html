@@ -5,9 +5,9 @@ Report List
 {% block content %}
 
 <div class="grid grid-cols-4 gap-7 pt-20">
-    {% for report in reports %}
+    {% for report in company_reports %}
         <div class="bg-white px-8 py-4 rounded shadow-slate-200 shadow duration-150 hover:shadow-xl hover:shadow-slate-200">
-            <a href="{{report.pk}}">
+            <a href="/reports/{{report.company}}/{{report.pk}}">
                 <h4 class="font-light text-xl text-gray-500">{{report.company}}</h4>
                 <h4 class="text-2xl text-gray-900 mb-4">{{report.department}}</h4>
             </a>

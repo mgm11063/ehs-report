@@ -35,7 +35,10 @@ class Report(models.Model):
     # 공통
     updated = models.DateTimeField("업데이트 날짜")
     company = models.ForeignKey(
-        Company, on_delete=models.CASCADE, null=True, verbose_name="회사"
+        Company,
+        on_delete=models.CASCADE,
+        null=True,
+        verbose_name="회사",
     )
     department = models.ForeignKey(
         DepartmentType, on_delete=models.CASCADE, null=True, verbose_name="부서명"

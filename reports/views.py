@@ -19,6 +19,13 @@ class ReportView(ListView):
     paginate_orphans = 5
     context_object_name = "reports"
 
+    def get_context_data(self, **kwargs):
+        context = super(ReportView, self).get_context_data(**kwargs)
+        context["company_reports"] = models.Report.objects.filter(
+            company__name=self.kwargs.get("company_pk")
+        )
+        return context
+
 
 class ReportDetail(DetailView):
     """ReportDetail Definition"""
