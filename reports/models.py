@@ -38,7 +38,6 @@ class Report(models.Model):
         Company,
         on_delete=models.CASCADE,
         null=True,
-        verbose_name="회사",
     )
     department = models.ForeignKey(
         DepartmentType, on_delete=models.CASCADE, null=True, verbose_name="부서명"
