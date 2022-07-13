@@ -1,4 +1,8 @@
-from django.views.generic import ListView, DetailView
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.views.generic import ListView, DetailView, FormView
+
+from reports import forms
 from . import models
 
 
@@ -32,3 +36,16 @@ class ReportDetail(DetailView):
 
     model = models.Report
     context_object_name = "report"
+
+
+class CreateReportView(FormView):
+    """ReportCreate View"""
+
+    form_class = forms.CreateReportForm
+    template_name = "reports/report_create.html"
+
+    def form_valid(self, form):
+        report = form.save()
+        report.save()
+        form.save_m2m()
+        return redirect(reverse("core:home"))

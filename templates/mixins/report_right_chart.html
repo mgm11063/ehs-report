@@ -1,0 +1,71 @@
+<div id="chart2"></div>
+
+<script>
+prev_frequency = Number("{{report.prev_frequency}}")
+prev_importance = Number("{{report.prev_importance}}")
+after_frequency = Number("{{report.after_frequency}}")
+after_importance = Number("{{report.after_importance}}")
+
+prev_total = prev_frequency * prev_importance
+after_total = after_frequency * after_importance
+
+
+// Chart Section 2
+var options = {
+          series: [{
+          name: '개선 전',
+          data: [prev_frequency, prev_importance, prev_total]
+        }, {
+          name: '개선 후',
+          data: [after_frequency, after_importance, after_total]
+        }],
+        legend: {
+            show: false,
+        },
+        chart: {
+            height: 350,
+            type: 'area',
+            toolbar:{
+                show : false,
+            },
+            background:"transparent"
+        },
+
+        grid: {
+            show: false,
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          curve: 'smooth'
+        },
+        xaxis: {
+          type: 'category',
+          categories: ["빈도 수", "중대성", "총 위험성"],
+          labels: {
+            show: false,
+          },
+        },
+        yaxis: {
+        show: false,
+        tickAmount: 6,
+        min:1,
+        max: 6,
+        },
+        tooltip: {
+            enabled:true,
+            y:{
+                formatter:(value) => `${value} Point`
+            },
+            x: {
+                show: false,
+            },
+        },
+        
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart2"), options);
+        chart.render();
+
+</script>

@@ -4,6 +4,7 @@ Report List
 {% endblock page_title %}
 {% block content %}
 
+<a id="create_report">보고서 추가하기</a>
 <div class="grid grid-cols-4 gap-7 pt-20">
     {% for report in company_reports %}
         <div class="bg-white px-8 py-4 rounded shadow-slate-200 shadow duration-150 hover:shadow-xl hover:shadow-slate-200">
@@ -34,5 +35,10 @@ Report List
     {% endfor %}
 </div>
 
+<script>
+    var link =  document.location.href;
+    createReport = document.getElementById('create_report')
+    createReport.setAttribute("href",link+"/create")
+</script>
 
 {% endblock content %}

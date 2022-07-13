@@ -1,0 +1,54 @@
+<div class="w-full items-center rounded-3xl h-[29rem] mt-10 bg-gray-100">
+    <div id="chart1" class="w-[500px] relative pt-11">
+        <span id="toal_point" class="absolute text-gray-700 left-[34.5%] top-[46.5%] text-center text-2xl font-bold"></span>
+    </div>
+</div>
+
+<script>
+
+after_frequency = Number("{{report.after_frequency}}")
+after_importance = Number("{{report.after_importance}}")
+total = after_frequency * after_importance
+dangerous = after_frequency * after_importance + " Total" +"<br>" +"Point"
+document.querySelector("#toal_point").innerHTML = dangerous
+
+// Chart Section 1
+var options = {
+    series: [after_frequency,after_importance,total],
+    chart: {
+    type: 'donut',
+    },
+    dataLabels: {
+    enabled: false,
+    },
+    colors: ['#1E3A8A', '#14B8A6',"#1E293B"],
+    labels: ['빈도 수', '중대성', '안전'],
+    legend: {
+        show: true,
+    },
+    
+    stroke: {
+        show: true,
+        curve: 'smooth',
+        lineCap: 'butt',
+        colors: undefined,
+        width: 1,
+        dashArray: 0,      
+    },
+    
+    responsive: [{
+      breakpoint: 480,
+      options: {
+        chart: {
+          width: 200
+        },
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }]
+};
+var chart = new ApexCharts(document.querySelector("#chart1"), options);
+chart.render();
+
+</script>
