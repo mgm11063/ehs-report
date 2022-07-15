@@ -7,22 +7,12 @@ class CreateReportForm(forms.ModelForm):
     class Meta:
         model = models.Report
         fields = (
-            "company",
+            "company_name",
             "department",
-            "process",
-            "operation",
+            "rater",
             "effective_date",
-            "prev_image",
-            "prev_risk",
-            "prev_frequency",
-            "prev_importance",
-            "after_image",
-            "after_risk",
-            "after_frequency",
-            "after_importance",
-            "improvement_date",
-            "improvement_officer",
-            "is_completion",
+            "process",
+            "place",
         )
         widgets = {
             "operation": TextInput(attrs={"placeholder": "작업내용"}),
