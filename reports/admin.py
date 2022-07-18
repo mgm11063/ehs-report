@@ -1,4 +1,7 @@
 from django.contrib import admin
+from django_admin_listfilter_dropdown.filters import (
+    RelatedDropdownFilter,
+)
 from . import models
 
 
@@ -27,7 +30,7 @@ class ReportContentInline(admin.StackedInline):
 
     model = models.ReportContent
     extra = 0
-    raw_id_fields = ["risk_type", "factor"]
+    autocomplete_fields = ["risk_type", "factor"]
     filter_horizontal = ("after_plan",)
 
 
@@ -54,11 +57,15 @@ class ReportAdmin(admin.ModelAdmin):
         ),
     )
 
-    list_display = ("company_name", "department")
+    list_display = ("company_name", "department", "process")
 
-    list_filter = ("company_name",)
+    list_filter = (
+        ("company_name", RelatedDropdownFilter),
+        ("department", RelatedDropdownFilter),
+        ("process", RelatedDropdownFilter),
+    )
 
-    raw_id_fields = ["company_name", "department", "process", "place"]
+    autocomplete_fields = ["company_name", "department", "process", "place"]
 
     filter_horizontal = ("rater",)
 

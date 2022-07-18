@@ -5,8 +5,8 @@ name = "pypi"
 
 [packages]
 django = "*"
-django-filter = "*"
 pillow = "*"
+django-admin-list-filter-dropdown = "*"
 
 [dev-packages]
 flake8 = "*"

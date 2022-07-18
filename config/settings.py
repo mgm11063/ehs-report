@@ -40,7 +40,7 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    "django_filters",
+    "django_admin_listfilter_dropdown",
 ]
 
 PROJECT_APPS = [
