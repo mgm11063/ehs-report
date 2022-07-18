@@ -39,9 +39,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = [
-    "django_admin_listfilter_dropdown",
-]
+THIRD_PARTY_APPS = ["django_admin_listfilter_dropdown", "mathfilters"]
 
 PROJECT_APPS = [
     "core.apps.CoreConfig",

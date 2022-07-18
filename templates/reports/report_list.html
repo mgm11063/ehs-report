@@ -7,31 +7,40 @@ Report List
 <a id="create_report">보고서 추가하기</a>
 <div class="grid grid-cols-4 gap-7 pt-20">
     {% for report in company_reports %}
-        <div class="bg-white px-8 py-4 rounded shadow-slate-200 shadow duration-150 hover:shadow-xl hover:shadow-slate-200">
+
+    <div class="bg-white px-8 py-4 rounded shadow-slate-200 shadow duration-150 hover:shadow-xl hover:shadow-slate-200">
+        <div class="flex items-center justify-between">
             <a href="/reports/{{report.company}}/{{report.pk}}">
-                <h4 class="font-light text-xl text-gray-500">{{report.company}}</h4>
+                <h4 class="font-light text-xl text-gray-500">{{report.company_name}}</h4>
                 <h4 class="text-2xl text-gray-900 mb-4">{{report.department}}</h4>
             </a>
-            {% if report.after_dangerous < 3 %}
-            <p class="inline-block px-2 font-medium bg-green-500 text-white">낮음</p>
-            {% elif report.after_dangerous < 5 %}
-            <p class="inline-block px-2 font-medium bg-violet-500 text-white">보통</p>
-            {% else %}
-            <p class="inline-block px-2 font-medium bg-rose-500 text-white">높음</p>
-            {% endif %}
-            <div class="mt-9 flex justify-between items-center">
-                <p class="tracking-tighter">
-                    <span class="block tracking-normal text-sm text-gray-500 font-light">Last Update</span>
-                    {% load humanize %}
-                    {{ report.updated | naturaltime }}
-                </p>
-                <ul>
-                    <a href="#"><i class="fa-solid fa-pen-to-square text-lg text-gray-700"></i></a>
-                    <a class="mx-1" href="#"><i class="fa-solid fa-magnifying-glass text-lg text-gray-700"></i></a>
-                    <a href="#"><i class="fa-solid fa-trash-can text-lg text-gray-700"></i></a>
-                </ul>
+            <div>
+                {% if report.total_rating < 3 %}
+                    <p class="rounded-xl py-[0.1rem] pl-3 pr-2 bg-green-500 text-white">낮음<i class="fa-solid fa-circle-check ml-1"></i></p>
+                {% elif report.total_rating < 5 %}
+                    <p class="rounded-xl py-[0.1rem] pl-3 pr-2 bg-violet-500 text-white">보통<i class="fa-solid fa-circle-exclamation ml-1"></i></p>
+                {% else %}
+                    <p class="rounded-xl py-[0.1rem] pl-3 pr-2 bg-rose-500 text-white">높음<i class="fa-solid fa-circle-exclamation ml-1"></i></p>
+                {% endif %}
             </div>
         </div>
+
+        
+        <div class="mt-9 flex justify-between items-center">
+            <p class="tracking-tighter">
+                <span class="block tracking-normal text-sm text-gray-500 font-light">Last Update</span>
+                {% load humanize %}
+                {{ report.last_update | naturaltime }}
+            </p>
+            <ul>
+                <a href="#"><i class="fa-solid fa-pen-to-square text-lg text-gray-700"></i></a>
+                <a class="mx-1" href="#"><i class="fa-solid fa-magnifying-glass text-lg text-gray-700"></i></a>
+                <a href="#"><i class="fa-solid fa-trash-can text-lg text-gray-700"></i></a>
+            </ul>
+        </div>
+    </div>
+
+       
     {% endfor %}
 </div>
 

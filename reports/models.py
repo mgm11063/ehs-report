@@ -141,14 +141,19 @@ class ReportContent(models.Model):
     def __str__(self):
         return str(self.risk_type)
 
+    def rating_average(self):
+        avg = self.after_frequency * self.after_importance
+        return avg
+
 
 class Report(models.Model):
 
     """Report Model Definition"""
 
     class Meta:
-        verbose_name_plural = "= 리포트 ="
+        verbose_name_plural = "리포트"
 
+    last_update = models.DateTimeField(auto_now=True)
     company_name = models.ForeignKey(
         "CompanyName",
         related_name="company_name",
@@ -187,3 +192,13 @@ class Report(models.Model):
 
     def __str__(self):
         return str(self.company_name)
+
+    def total_rating(self):
+        all_report = self.report_content.all()
+        all_ratings = 0
+
+        for report in all_report:
+            all_ratings += report.rating_average()
+        return round(all_ratings / len(all_report), 1)
+
+    total_rating.short_description = "위험성 평균점수"

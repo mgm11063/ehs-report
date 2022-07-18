@@ -26,7 +26,7 @@ class ItemAdmin(admin.ModelAdmin):
         return self.name
 
 
-class ReportContentInline(admin.StackedInline):
+class ReportContentInline(admin.TabularInline):
 
     model = models.ReportContent
     extra = 0
@@ -57,8 +57,7 @@ class ReportAdmin(admin.ModelAdmin):
         ),
     )
 
-    list_display = ("company_name", "department", "process")
-
+    list_display = ("company_name", "department", "process", "total_rating")
     list_filter = (
         ("company_name", RelatedDropdownFilter),
         ("department", RelatedDropdownFilter),
