@@ -141,6 +141,10 @@ class ReportContent(models.Model):
     def __str__(self):
         return str(self.risk_type)
 
+    def point_list(self):
+        point_list = [self.after_frequency, self.after_importance]
+        return point_list
+
     def rating_average(self):
         avg = self.after_frequency * self.after_importance
         return avg
@@ -196,7 +200,6 @@ class Report(models.Model):
     def total_rating(self):
         all_report = self.report_content.all()
         all_ratings = 0
-
         for report in all_report:
             all_ratings += report.rating_average()
         return round(all_ratings / len(all_report), 1)

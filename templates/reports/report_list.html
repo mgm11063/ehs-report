@@ -4,46 +4,51 @@ Report List
 {% endblock page_title %}
 {% block content %}
 
-<a id="create_report">보고서 추가하기</a>
-<div class="grid grid-cols-4 gap-7 pt-20">
-    {% for report in company_reports %}
+<!-- <a id="create_report">보고서 추가하기</a> -->
+<div class="px-52">
+    <h3 class="text-3xl font-semibold mb-10 mt-16">Dashboard</h3>
+    <div class="flex justify-between">
+        <div class="bg-white h-[430px] w-[360px]"></div>
+        <div class="bg-white h-[430px] w-[750px]"></div>
+        <div class="bg-white h-[430px] w-[650px]"></div>
+    </div>
+    <h3 class="text-2xl font-normal mb-10 mt-16">Interface Summary</h3>
+    <div class="grid grid-cols-4 gap-7">
+        {% for report in company_reports %}
+        <div class="bg-white px-8 py-4 rounded-lg shadow-slate-200 shadow duration-150 hover:shadow-xl hover:shadow-slate-200">
+            <div class="flex items-center justify-between">
+                <a href="/reports/{{report.company_name}}/{{report.department}}">
+                    <h4 class="font-light text-xl text-gray-500">{{report.company_name}}</h4>
+                    <h4 class="text-2xl text-gray-900 mb-4">{{report.department}}</h4>
+                </a>
+                <div>
+                    {% if report.total_rating < 3 %}
+                        <p class="rounded-xl py-[0.1rem] pl-3 pr-2 bg-green-500 text-white">낮음<i class="fa-solid fa-circle-check ml-1"></i></p>
+                    {% elif report.total_rating < 5 %}
+                        <p class="rounded-xl py-[0.1rem] pl-3 pr-2 bg-violet-500 text-white">보통<i class="fa-solid fa-circle-exclamation ml-1"></i></p>
+                    {% else %}
+                        <p class="rounded-xl py-[0.1rem] pl-3 pr-2 bg-rose-500 text-white">높음<i class="fa-solid fa-circle-exclamation ml-1"></i></p>
+                    {% endif %}
+                </div>
+            </div>
 
-    <div class="bg-white px-8 py-4 rounded shadow-slate-200 shadow duration-150 hover:shadow-xl hover:shadow-slate-200">
-        <div class="flex items-center justify-between">
-            <a href="/reports/{{report.company}}/{{report.pk}}">
-                <h4 class="font-light text-xl text-gray-500">{{report.company_name}}</h4>
-                <h4 class="text-2xl text-gray-900 mb-4">{{report.department}}</h4>
-            </a>
-            <div>
-                {% if report.total_rating < 3 %}
-                    <p class="rounded-xl py-[0.1rem] pl-3 pr-2 bg-green-500 text-white">낮음<i class="fa-solid fa-circle-check ml-1"></i></p>
-                {% elif report.total_rating < 5 %}
-                    <p class="rounded-xl py-[0.1rem] pl-3 pr-2 bg-violet-500 text-white">보통<i class="fa-solid fa-circle-exclamation ml-1"></i></p>
-                {% else %}
-                    <p class="rounded-xl py-[0.1rem] pl-3 pr-2 bg-rose-500 text-white">높음<i class="fa-solid fa-circle-exclamation ml-1"></i></p>
-                {% endif %}
+            
+            <div class="mt-9 flex justify-between items-center">
+                <p class="tracking-tighter">
+                    <span class="block tracking-normal text-sm text-gray-500 font-light">Last Update</span>
+                    {% load humanize %}
+                    {{ report.last_update | naturaltime }}
+                </p>
+                <ul>
+                    <a href="#"><i class="fa-solid fa-pen-to-square text-lg text-gray-700"></i></a>
+                    <a class="mx-1" href="#"><i class="fa-solid fa-magnifying-glass text-lg text-gray-700"></i></a>
+                    <a href="#"><i class="fa-solid fa-trash-can text-lg text-gray-700"></i></a>
+                </ul>
             </div>
         </div>
-
-        
-        <div class="mt-9 flex justify-between items-center">
-            <p class="tracking-tighter">
-                <span class="block tracking-normal text-sm text-gray-500 font-light">Last Update</span>
-                {% load humanize %}
-                {{ report.last_update | naturaltime }}
-            </p>
-            <ul>
-                <a href="#"><i class="fa-solid fa-pen-to-square text-lg text-gray-700"></i></a>
-                <a class="mx-1" href="#"><i class="fa-solid fa-magnifying-glass text-lg text-gray-700"></i></a>
-                <a href="#"><i class="fa-solid fa-trash-can text-lg text-gray-700"></i></a>
-            </ul>
-        </div>
+        {% endfor %}
     </div>
-
-       
-    {% endfor %}
 </div>
-
 <script>
     var link =  document.location.href;
     createReport = document.getElementById('create_report')

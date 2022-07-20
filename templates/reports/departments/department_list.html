@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block page_title %}
+Report Detail
+{% endblock page_title %}
+{% block content %}
+
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+<div class="px-5">
+    {% for report in department_reports %}
+        {{report.department}}의 리포트들
+            <table id="TableToExport" class="w-full text-xs">
+                <thead>
+                    <th width="7%">위험분류</th>
+                    <th width="9%">유해위험요인</th>
+                    <th width="12%">유해위험요인 원인</th>
+                    <th width="12%">관련 근거</th>
+                    <th  width="10">현재의 안전보건 조치</th>
+                    <th>현재 위험성 가능성</th>
+                    <th>현재 위험성 중대성</th>
+                    <th>위험성 감소 대책 및 관리 방안</th>
+                    <th>개선 후 위험성 가능성</th>
+                    <th>개선 후 위험성 중대성</th>
+                    <th>개선 예정일</th>
+                    <th>개선 책임자</th>
+                </thead>
+                <tbody>
+                    {% for department in report.report_content.all %}
+                        <tr>
+                            <td>
+                                <a href="/reports/{{report.company_name}}/{{report.department}}/{{report.pk}}">
+                                {{department.risk_type}}
+                                </a>
+                            </td>
+                            <td>{{department.factor}}</td>
+                            <td>{{department.factor_source}}</td>
+                            <td>{{department.row_basis}}</td>
+                            <td>{{department.present_measures}}</td>
+                            <td>{{department.present_frequency}}</td>
+                            <td>{{department.present_importance}}</td>
+                            <td>
+                                {% for plan in department.after_plan.all %}
+                                    <li>
+                                        {{plan}}
+                                    </li>
+                                {% endfor %}
+                            </td>
+                            <td>{{department.after_frequency}}</td>
+                            <td>{{department.after_importance}}</td>
+                            <td>{{department.improvement_date}}</td>
+                            <td>{{department.improvement_officer}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    {% endfor %}
+    <button id="sheetjsexport"><b>Export as XLSX</b></button>
+</div>
+<script>
+    document.getElementById("sheetjsexport").addEventListener('click', function() {
+    var wb = XLSX.utils.table_to_book(document.getElementById("TableToExport"));
+    XLSX.writeFile(wb, "SheetJSTable.xlsx");
+    });
+</script>
+
+
+{% endblock content %}

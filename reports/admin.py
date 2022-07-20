@@ -26,7 +26,7 @@ class ItemAdmin(admin.ModelAdmin):
         return self.name
 
 
-class ReportContentInline(admin.TabularInline):
+class ReportContentInline(admin.StackedInline):
 
     model = models.ReportContent
     extra = 0
