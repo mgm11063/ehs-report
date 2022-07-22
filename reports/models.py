@@ -141,11 +141,11 @@ class ReportContent(models.Model):
     def __str__(self):
         return str(self.risk_type)
 
-    def point_list(self):
-        point_list = [self.after_frequency, self.after_importance]
-        return point_list
+    def present_rating_average(self):
+        avg = self.present_frequency * self.present_importance
+        return avg
 
-    def rating_average(self):
+    def after_rating_average(self):
         avg = self.after_frequency * self.after_importance
         return avg
 
@@ -197,11 +197,19 @@ class Report(models.Model):
     def __str__(self):
         return str(self.company_name)
 
-    def total_rating(self):
+    def present_total_rating(self):
         all_report = self.report_content.all()
         all_ratings = 0
         for report in all_report:
-            all_ratings += report.rating_average()
+            all_ratings += report.present_rating_average()
         return round(all_ratings / len(all_report), 1)
 
-    total_rating.short_description = "위험성 평균점수"
+    def after_total_rating(self):
+        all_report = self.report_content.all()
+        all_ratings = 0
+        for report in all_report:
+            all_ratings += report.after_rating_average()
+        return round(all_ratings / len(all_report), 1)
+
+    present_total_rating.short_description = "개선 전 위험성 평균점수"
+    after_total_rating.short_description = "개선 후 위험성 평균점수"

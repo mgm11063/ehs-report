@@ -7,14 +7,15 @@ Report Detail
 <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 <div class="px-5">
     {% for report in department_reports %}
-        {{report.department}}의 리포트들
+        <h4 id="company_name"><span>{{report.company_name}}</span></h4>
+        <h4 id="department"><span>{{report.department}}</span>의 리포트들</h4>
             <table id="TableToExport" class="w-full text-xs">
                 <thead>
-                    <th width="7%">위험분류</th>
-                    <th width="9%">유해위험요인</th>
-                    <th width="12%">유해위험요인 원인</th>
-                    <th width="12%">관련 근거</th>
-                    <th  width="10">현재의 안전보건 조치</th>
+                    <th>위험분류</th>
+                    <th>유해위험요인</th>
+                    <th>유해위험요인 원인</th>
+                    <th>관련 근거</th>
+                    <th>현재의 안전보건 조치</th>
                     <th>현재 위험성 가능성</th>
                     <th>현재 위험성 중대성</th>
                     <th>위험성 감소 대책 및 관리 방안</th>
@@ -27,7 +28,7 @@ Report Detail
                     {% for department in report.report_content.all %}
                         <tr>
                             <td>
-                                <a href="/reports/{{report.company_name}}/{{report.department}}/{{report.pk}}">
+                                <a href="/reports/{{report.company_name}}/{{report.department}}/{{department.pk}}">
                                 {{department.risk_type}}
                                 </a>
                             </td>
@@ -56,9 +57,11 @@ Report Detail
     <button id="sheetjsexport"><b>Export as XLSX</b></button>
 </div>
 <script>
+    const company_name = document.querySelector("#company_name span").innerText
+    const department = document.querySelector("#department span").innerText
     document.getElementById("sheetjsexport").addEventListener('click', function() {
     var wb = XLSX.utils.table_to_book(document.getElementById("TableToExport"));
-    XLSX.writeFile(wb, "SheetJSTable.xlsx");
+    XLSX.writeFile(wb, `${company_name}_${department}보고서.xlsx`);
     });
 </script>
 

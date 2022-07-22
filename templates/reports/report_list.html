@@ -8,9 +8,51 @@ Report List
 <div class="px-52">
     <h3 class="text-3xl font-semibold mb-10 mt-16">Dashboard</h3>
     <div class="flex justify-between">
-        <div class="bg-white h-[430px] w-[360px]"></div>
-        <div class="bg-white h-[430px] w-[750px]"></div>
-        <div class="bg-white h-[430px] w-[650px]"></div>
+        <ul class="bg-white h-[530px] w-[360px] py-7">
+            <li class="flex items-center">
+                <div id="chart1" class="relative w-40">
+                    <p class="absolute left-[40%] top-[37%] text-lg font-semibold text-[#1E3A8A]">78%</p>
+                </div>
+                <div class="pb-4 ml-3">
+                    <h6 class="text-gray-600 font-medium">개선 전 중요도</h6>
+                    <p class="text-2xl font-semibold mt-1">{{avg_present_frequency.report_content__present_frequency__avg}}</p>
+                </div>
+                
+            </li>
+            <li class="flex items-center mt-2">
+                <div id="chart2" class="relative w-40">
+                    <p class="absolute left-[40%] top-[37%] text-lg font-semibold text-[#22c55e]">78%</p>
+                </div>
+                <div class="pb-4 ml-3">
+                    <h6 class="text-gray-600 font-medium">개선 전 중요도</h6>
+                    <p class="text-2xl font-semibold mt-1">{{avg_present_importance.report_content__present_importance__avg}}</p>
+                </div>
+            </li>
+            <li class="flex items-center mt-2">
+                <div id="chart3" class="relative w-40">
+                    <p class="absolute left-[40%] top-[37%] text-lg font-semibold text-[#F59E0B]">78%</p>
+                </div>
+                <div class="pb-4 ml-3">
+                    <h6 class="text-gray-600 font-medium">개선 후 중요도</h6>
+                    <p class="text-2xl font-semibold mt-1">{{avg_after_frequency.report_content__after_frequency__avg}}</p>
+                </div>
+            </li>
+            <li class="flex items-center mt-2">
+                <div id="chart4" class="relative w-40">
+                    <p class="absolute left-[40%] top-[37%] text-lg font-semibold text-[#6b21a8]">78%</p>
+                </div>
+                <div class="pb-4 ml-3">
+                    <h6 class="text-gray-600 font-medium">개선 후 중요도</h6>
+                    <p class="text-2xl font-semibold mt-1">{{avg_after_importance.report_content__after_importance__avg}}</p>
+                </div>
+            </li>
+        </ul>
+        <div class="bg-white h-[530px] w-[750px]`">
+            <div id="chart5" class="w-[750px]"></div>
+        </div>
+        <div class="bg-white h-[530px] w-[650px]">
+            <div id="chart6" class="w-[620px]"></div>
+        </div>
     </div>
     <h3 class="text-2xl font-normal mb-10 mt-16">Interface Summary</h3>
     <div class="grid grid-cols-4 gap-7">
@@ -22,9 +64,9 @@ Report List
                     <h4 class="text-2xl text-gray-900 mb-4">{{report.department}}</h4>
                 </a>
                 <div>
-                    {% if report.total_rating < 3 %}
+                    {% if report.after_total_rating < 3 %}
                         <p class="rounded-xl py-[0.1rem] pl-3 pr-2 bg-green-500 text-white">낮음<i class="fa-solid fa-circle-check ml-1"></i></p>
-                    {% elif report.total_rating < 5 %}
+                    {% elif report.after_total_rating < 5 %}
                         <p class="rounded-xl py-[0.1rem] pl-3 pr-2 bg-violet-500 text-white">보통<i class="fa-solid fa-circle-exclamation ml-1"></i></p>
                     {% else %}
                         <p class="rounded-xl py-[0.1rem] pl-3 pr-2 bg-rose-500 text-white">높음<i class="fa-solid fa-circle-exclamation ml-1"></i></p>
@@ -32,10 +74,19 @@ Report List
                 </div>
             </div>
 
-            
+            <div class="flex mt-3">
+                <div>
+                    <h6 class="text-gray-700 font-light">위험성 평균</h6>
+                    <p class="text-rose-600 font-semibold">{{report.present_total_rating}}</p>
+                </div>
+                <div class="ml-20">
+                    <h6 class="text-gray-700 font-light">위험성 평균</h6>
+                    <p class="font-semibold">{{report.after_total_rating}}</p>
+                </div>
+            </div>
             <div class="mt-9 flex justify-between items-center">
-                <p class="tracking-tighter">
-                    <span class="block tracking-normal text-sm text-gray-500 font-light">Last Update</span>
+                <p class="tracking-tighter text-xs">
+                    <span class="block tracking-normal text-gray-500 font-light">Last Update</span>
                     {% load humanize %}
                     {{ report.last_update | naturaltime }}
                 </p>
@@ -49,6 +100,122 @@ Report List
         {% endfor %}
     </div>
 </div>
+
+<style>
+    hi{
+        background-color: #c999f1;
+    }
+</style>
+<script>
+
+
+const present_frequency = Number("{{avg_present_frequency.report_content__present_frequency__avg}}")
+const present_importance = Number("{{avg_present_importance.report_content__present_importance__avg}}")
+const after_frequency = Number("{{avg_after_frequency.report_content__after_frequency__avg}}")
+const after_importance = Number("{{avg_after_importance.report_content__after_importance__avg}}")
+const avg_present = Number("{{avg_present}}")
+const avg_after = Number("{{avg_after}}")
+
+
+var options = {
+    series: [present_frequency, Number((3 - Number(present_frequency)).toPrecision(1)) ],
+    chart: {
+    type: 'donut',
+    },
+    dataLabels: {
+    enabled: false,
+    },
+    colors: ['#1E3A8A',"#9da9cd"],
+    labels: ['빈도 수', '총 점수'],
+    legend: {
+      show: false,
+    }
+};
+var chart = new ApexCharts(document.querySelector("#chart1"), options);
+chart.render();
+var options = {
+    series: [present_importance, Number((3 - Number(present_importance)).toPrecision(1))],
+    chart: {
+    type: 'donut',
+    },
+    dataLabels: {
+    enabled: false,
+    },
+    colors: ['#22c55e',"#72e09a"],
+    labels: ['빈도 수', '총 점수'],
+    legend: {
+      show: false,
+    }
+};
+var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
+chart2.render();
+var options = {
+    series: [after_frequency, Number((3 - Number(after_frequency)).toPrecision(1))],
+    chart: {
+    type: 'donut',
+    },
+    dataLabels: {
+    enabled: false,
+    },
+    colors: ['#F59E0B',"#fad9a1"],
+    labels: ['빈도 수', '총 점수'],
+    legend: {
+      show: false,
+    }
+};
+var chart3 = new ApexCharts(document.querySelector("#chart3"), options);
+chart3.render();
+var options = {
+    series: [after_frequency, Number((3 - Number(after_importance)).toPrecision(1))],
+    chart: {
+    type: 'donut',
+    },
+    dataLabels: {
+    enabled: false,
+    },
+    colors: ['#6b21a8',"#c999f1"],
+    labels: ['빈도 수', '총 점수'],
+    legend: {
+      show: false,
+    }
+};
+var chart4 = new ApexCharts(document.querySelector("#chart4"), options);
+chart4.render();
+
+var options = {
+          series: [{
+          name: 'series1',
+          data: [31, 40, 28, 51, 42, 109, 100]
+        }, {
+          name: 'series2',
+          data: [11, 32, 45, 32, 34, 52, 41]
+        }],
+          chart: {
+          height: 350,
+          type: 'area'
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'smooth'
+        },
+        xaxis: {
+          type: 'datetime',
+          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+        },
+        tooltip: {
+          x: {
+            format: 'dd/MM/yy HH:mm'
+          },
+        },
+        };
+var chart6 = new ApexCharts(document.querySelector("#chart6"), options);
+chart6.render();
+
+
+</script>
+
 <script>
     var link =  document.location.href;
     createReport = document.getElementById('create_report')

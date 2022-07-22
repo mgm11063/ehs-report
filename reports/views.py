@@ -2,6 +2,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, FormView
 from django.db.models import Q
+from django.db.models import Avg
 
 from reports import forms
 from . import models
@@ -27,9 +28,39 @@ class ReportView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ReportView, self).get_context_data(**kwargs)
-        context["company_reports"] = models.Report.objects.filter(
+        report = models.Report.objects.filter(
             company_name__name=self.kwargs.get("company_pk")
         )
+        context["company_reports"] = report
+
+        context["avg_present_frequency"] = report.aggregate(
+            Avg("report_content__present_frequency")
+        )
+        context["avg_present_importance"] = report.aggregate(
+            Avg("report_content__present_importance")
+        )
+
+        context["avg_after_frequency"] = report.aggregate(
+            Avg("report_content__after_frequency")
+        )
+        context["avg_after_importance"] = report.aggregate(
+            Avg("report_content__after_importance")
+        )
+
+        context["avg_present"] = round(
+            context["avg_present_frequency"]["report_content__present_frequency__avg"]
+            * context["avg_present_importance"][
+                "report_content__present_importance__avg"
+            ],
+            2,
+        )
+
+        context["avg_after"] = round(
+            context["avg_after_frequency"]["report_content__after_frequency__avg"]
+            * context["avg_after_importance"]["report_content__after_importance__avg"],
+            2,
+        )
+
         return context
 
 
